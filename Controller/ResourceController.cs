@@ -1,101 +1,50 @@
+using AgroTechProject.Dtos.ResourceDto;
+using AgroTechProject.Services.Resource;
 using Microsoft.AspNetCore.Mvc;
-using AgroTechProject.Model;
-using AgroTechProject.Data;
-using Microsoft.EntityFrameworkCore;
 
-namespace ResourceController;
+namespace AgroTechProject.Controller;
 
 [ApiController]
-[Route("api/[Controller]")]
-
+[Route("api/[controller]")]
 public class ResourceController : ControllerBase
 {
-  private readonly AppDbContext _context;
+    private readonly IResourceService _service;
 
-  public ResourceController(AppDbContext context)
-  {
-    _context = context;
-  }
-
-  [HttpGet]
-  public async Task<IActionResult> GetAllResource()
-  {
-    var resources = await _context.Resources.ToListAsync();
-    return Ok(resources);
-  }
-
-  [HttpGet("{id:int}")] 
-  public async Task<IActionResult> GetResourceById(int id)
-  {
-    var resources = await _context.Resources.FindAsync(id);
-
-    if (resources == null)
+    public ResourceController(IResourceService service)
     {
-      return NotFound(new { Message = $"Data with the id {id} not found..." });
-    }
-    
-    return Ok(resources);
-  }
-
-  [HttpGet("byname")]
-  public async Task<IActionResult> GetResourceByName([FromQuery] string name)
-  {
-    var resources = await _context.Resources
-      .Where(r => r.Name.Contains(name))
-      .ToListAsync();
-
-    if (resources == null || !resources.Any())
-    {
-      return NotFound(new { Message = $"Data with the name {name} not found.." });
-    }
-    
-    return Ok(resources);
-  }
-
-  [HttpPost("{id}")]
-  public async Task<IActionResult> AddResourceById(int id,[FromBody] ResourceModel NewResource)
-  {
-    
-    if (NewResource == null)
-    {
-      return BadRequest(new { Message = $"Cannot insert the resource with id {id}" });
+        _service = service;
     }
 
-    await _context.Resources.AddAsync(NewResource);
-    await _context.SaveChangesAsync();
+    [HttpGet]
+    public async Task<IActionResult> GetAll() =>
+        Ok(await _service.GetAllAsync());
 
-    return CreatedAtAction(nameof(AddResourceById), new { id = NewResource.Id }, NewResource);
-  }
-
-  [HttpPut("{id}")]
-  public async Task<IActionResult> UpdateResourceById(int id,[FromBody] ResourceModel NewResource)
-  {
-    var resource = await _context.Resources.FindAsync(id);
-
-    if (resource == null)
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById(int id)
     {
-      return NotFound(new {Message = $"Cannot update data with id {id} "});
-    }
-    
-    resource.Name = NewResource.Name;
-    await _context.SaveChangesAsync();
-
-    return Ok(new { Message = $"Data updated successfully with id {id}", resource });
-  }
-
-  [HttpDelete("{id}")]
-  public async Task<IActionResult> DeleteResourceById(int id)
-  {
-    var resource = await _context.Resources.FindAsync(id);
-
-    if (resource == null)
-    {
-      return NotFound(new { Message = "Cannot find resource with id: {id} " });
+        var resource = await _service.GetByIdAsync(id);
+        if (resource == null) return NotFound();
+        return Ok(resource);
     }
 
-    _context.Resources.Remove(resource);
-    await _context.SaveChangesAsync();
+    [HttpPost]
+    public async Task<IActionResult> Create(ResourceRequestDto dto)
+    {
+        await _service.AddAsync(dto);
+        return Ok();
+    }
 
-    return NoContent();
-  }
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update(int id, ResourceRequestDto dto)
+    {
+        await _service.UpdateAsync(id, dto);
+        return Ok();
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        await _service.DeleteAsync(id);
+        return Ok();
+    }
 }

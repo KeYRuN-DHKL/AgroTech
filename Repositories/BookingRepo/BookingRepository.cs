@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AgroTechProject.Repositories.BookingRepo;
 
-// Repositories/BookingRepository.cs
 public class BookingRepository : IBookingRepository
 {
     private readonly AppDbContext _context;
