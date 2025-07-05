@@ -1,28 +1,31 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-namespace AgroTechProject.Model;
-public class BookingModel
+
+namespace AgroTechProject.Model
 {
-    public int Id { get; set; }
+    public class BookingModel
+    {
+        public int Id { get; set; }
 
-    [Required]
-    public int ResourceId { get; set; }
+        [Required]
+        public int ResourceId { get; set; }
+        
+        [ForeignKey("ResourceId")]
+        public virtual ResourceModel? Resource { get; set; }
 
-    [ForeignKey("ResourceId")]
-    public ResourceModel Resource { get; set; }
+        [Required]
+        public int UserId { get; set; }
 
-    [Required]
-    public int FarmerId { get; set; }
+        [ForeignKey("UserId")]
+        public virtual UserModel? User { get; set; }  // Renamed from UserModel to User
 
-    [ForeignKey("FarmerId")]
-    public UserModel Farmer { get; set; }
+        [Required]
+        public DateTime StartTime { get; set; }
 
-    [Required]
-    public DateTime StartTime { get; set; }
+        [Required]
+        public DateTime EndTime { get; set; }
 
-    [Required]
-    public DateTime EndTime { get; set; }
-
-    [Required]
-    public string Status { get; set; } = "Pending"; // Pending, Approved, Rejected
+        [Required]
+        public string Status { get; set; } = "Pending"; // Pending, Approved, Rejected
+    }
 }
