@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 namespace AgroTechProject.Model;
 
 public class UserModel
@@ -7,17 +6,20 @@ public class UserModel
     public int Id { get; set; }
 
     [Required, MaxLength(100)]
-    public string FullName { get; set; }
+    public required string FullName { get; set; }
 
+    [StringLength(50, MinimumLength = 13, ErrorMessage = "E-mail must be between 15 and 50 characters.")]
     [Required, EmailAddress]
-    public string Email { get; set; }
+    public required string Email { get; set; }
 
+    [StringLength(20, MinimumLength = 3, ErrorMessage = "Password must be between 3 and 20 characters.")]
     [Required]
-    public string PasswordHash { get; set; }
+    public required string PasswordHash { get; set; }
 
+    [StringLength(5, MinimumLength = 4, ErrorMessage = "Role must be between 4 and 5 characters.")]
     [Required]
-    public string Role { get; set; }
+    public required string Role { get; set; }
 
-    public ICollection<ResourceModel> Resources { get; set; }
-    public ICollection<BookingModel> Bookings { get; set; }
+    public  ICollection<ResourceModel> Resources { get; set; }
+    public  ICollection<BookingModel> Bookings { get; set; }
 }

@@ -25,6 +25,7 @@ namespace AgroTechProject.Model
         [Required]
         public DateTime EndTime { get; set; }
 
+        [StringLength(10, MinimumLength = 3, ErrorMessage = "status must be between 3 and 10 characters.")]
         [Required]
         public string Status { get; set; } = "Pending"; // Pending, Approved, Rejected
     }

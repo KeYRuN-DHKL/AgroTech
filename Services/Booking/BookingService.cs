@@ -20,8 +20,8 @@ public class BookingService : IBookingService
         return bookings.Select(b => new BookingResponseDto
         {
             Id = b.Id,
-            ResourceName = b.Resource.Name,
-            UserName = b.User.FullName,
+            ResourceName = b.Resource != null ? b.Resource.Name : "Unknown Resource",
+            UserName = b.User != null ? b.User.FullName : "Unknown User",
             StartTime = b.StartTime,
             EndTime = b.EndTime,
             Status = b.Status
@@ -34,8 +34,8 @@ public class BookingService : IBookingService
         return b == null ? null : new BookingResponseDto
         {
             Id = b.Id,
-            ResourceName = b.Resource.Name,
-            UserName = b.User.FullName,
+            ResourceName = b.Resource != null ? b.Resource.Name : "Unknown Resource",
+            UserName = b.User != null ? b.User.FullName : "Unknown User",
             StartTime = b.StartTime,
             EndTime = b.EndTime,
             Status = b.Status
