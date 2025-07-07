@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "7c5MhgQ83gI=",
+  "dgSpecHash": "gznSfffNmR8=",
   "success": true,
-  "projectFilePath": "C:\\Users\\LOQ\\RiderProjects\\AgroTechProject\\AgroTechProject\\AgroTechProject.csproj",
+  "projectFilePath": "C:\\Users\\LOQ\\RiderProjects\\AgroTechProject\\AgroTechProject.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\LOQ\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\LOQ\\.nuget\\packages\\microsoft.aspnetcore.openapi\\8.0.17\\microsoft.aspnetcore.openapi.8.0.17.nupkg.sha512",
