@@ -20,6 +20,10 @@ public class UserModel
     [StringLength(5, MinimumLength = 4, ErrorMessage = "Role must be between 4 and 5 characters.")]
     [Required]
     public required string Role { get; set; }
+    
+    [Phone(ErrorMessage = "Invalid phone number format.")]
+    [StringLength(10, ErrorMessage = "Phone number must be 10 digits.")]
+    public required string PhoneNumber { get; set; }
 
     public  ICollection<ResourceModel> Resources { get; set; }
     public  ICollection<BookingModel> Bookings { get; set; }

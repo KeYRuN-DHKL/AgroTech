@@ -23,7 +23,8 @@ public class AppDbContext : DbContext
             FullName = "Default Owner",
             Email = "owner@example.com",
             PasswordHash = "hashed-password", // Use actual hash in real world
-            Role = "Owner"
+            Role = "Owner",
+            PhoneNumber = "9816067483"
         });
 
         // Seed a default resource owned by the above user
