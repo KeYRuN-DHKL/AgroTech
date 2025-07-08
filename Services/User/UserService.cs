@@ -1,7 +1,8 @@
 using AgroTechProject.Dtos.UserDto;
 using AgroTechProject.Model;
 using AgroTechProject.Repositories.UserRepo;
-using AgroTechProject.Services.User;
+
+namespace AgroTechProject.Services.User;
 
 public class UserService : IUserService
 {
@@ -16,7 +17,8 @@ public class UserService : IUserService
             Id = u.Id,
             FullName = u.FullName,
             Email = u.Email,
-            Role = u.Role
+            Role = u.Role,
+            PhoneNumber = u.PhoneNumber
         });
     }
 
@@ -28,7 +30,8 @@ public class UserService : IUserService
             Id = user.Id,
             FullName = user.FullName,
             Email = user.Email,
-            Role = user.Role
+            Role = user.Role,
+            PhoneNumber = user.PhoneNumber
         };
     }
 
@@ -39,7 +42,8 @@ public class UserService : IUserService
             FullName = dto.FullName,
             Email = dto.Email,
             PasswordHash = dto.PasswordHash,
-            Role = dto.Role
+            Role = dto.Role,
+            PhoneNumber = dto.PhoneNumber
         };
 
         await _repo.AddAsync(user);
@@ -55,6 +59,7 @@ public class UserService : IUserService
         user.Email = dto.Email;
         user.PasswordHash = dto.PasswordHash;
         user.Role = dto.Role;
+        user.PhoneNumber = dto.PhoneNumber;
 
         _repo.Update(user);
         await _repo.SaveChangesAsync();
