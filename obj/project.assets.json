@@ -3365,11 +3365,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\LOQ\\RiderProjects\\AgroTechProject\\AgroTechProject.csproj",
+      "projectUniqueName": "C:\\Users\\LOQ\\RiderProjects\\AgroTechProject\\AgroTech\\AgroTechProject.csproj",
       "projectName": "AgroTechProject",
-      "projectPath": "C:\\Users\\LOQ\\RiderProjects\\AgroTechProject\\AgroTechProject.csproj",
+      "projectPath": "C:\\Users\\LOQ\\RiderProjects\\AgroTechProject\\AgroTech\\AgroTechProject.csproj",
       "packagesPath": "C:\\Users\\LOQ\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\LOQ\\RiderProjects\\AgroTechProject\\obj\\",
+      "outputPath": "C:\\Users\\LOQ\\RiderProjects\\AgroTechProject\\AgroTech\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\LOQ\\AppData\\Roaming\\NuGet\\NuGet.Config"

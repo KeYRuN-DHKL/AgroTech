@@ -9,7 +9,8 @@ public class UserModel
     public required string FullName { get; set; }
 
     [StringLength(50, MinimumLength = 13, ErrorMessage = "E-mail must be between 15 and 50 characters.")]
-    [Required, EmailAddress]
+    [Required]
+    [EmailAddress(ErrorMessage = "Invalid email address format.")]
     public required string Email { get; set; }
 
     [StringLength(20, MinimumLength = 3, ErrorMessage = "Password must be between 3 and 20 characters.")]
