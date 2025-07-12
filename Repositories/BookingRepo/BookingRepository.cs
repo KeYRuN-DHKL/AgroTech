@@ -1,6 +1,5 @@
 using AgroTechProject.Data;
 using AgroTechProject.Model;
-using AgroTechProject.Repositories.BookingRepo;
 using Microsoft.EntityFrameworkCore;
 
 namespace AgroTechProject.Repositories.BookingRepo;

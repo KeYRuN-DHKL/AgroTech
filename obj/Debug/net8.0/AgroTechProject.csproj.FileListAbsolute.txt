@@ -406,3 +406,12 @@ C:\Users\LOQ\RiderProjects\AgroTechProject\AgroTech\obj\Debug\net8.0\refint\Agro
 C:\Users\LOQ\RiderProjects\AgroTechProject\AgroTech\obj\Debug\net8.0\AgroTechProject.pdb
 C:\Users\LOQ\RiderProjects\AgroTechProject\AgroTech\obj\Debug\net8.0\AgroTechProject.genruntimeconfig.cache
 C:\Users\LOQ\RiderProjects\AgroTechProject\AgroTech\obj\Debug\net8.0\ref\AgroTechProject.dll
+C:\Users\LOQ\RiderProjects\AgroTechProject\AgroTech\bin\Debug\net8.0\BCrypt.Net-Next.dll
+C:\Users\LOQ\RiderProjects\AgroTechProject\AgroTech\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\LOQ\RiderProjects\AgroTechProject\AgroTech\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\LOQ\RiderProjects\AgroTechProject\AgroTech\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\LOQ\RiderProjects\AgroTechProject\AgroTech\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\LOQ\RiderProjects\AgroTechProject\AgroTech\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\LOQ\RiderProjects\AgroTechProject\AgroTech\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\LOQ\RiderProjects\AgroTechProject\AgroTech\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\LOQ\RiderProjects\AgroTechProject\AgroTech\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
