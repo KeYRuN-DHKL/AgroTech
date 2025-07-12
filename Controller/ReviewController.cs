@@ -1,5 +1,6 @@
 using AgroTechProject.Dtos.ReviewDto;
 using AgroTechProject.Services.Review;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AgroTechProject.Controller;
@@ -16,6 +17,7 @@ public class ReviewController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize(Roles = "Farmer,Admin")]
     public async Task<IActionResult> GetAll()
     {
         var result = await _service.GetAllAsync();
@@ -23,6 +25,7 @@ public class ReviewController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [Authorize(Roles = "Farmer,Admin")]
     public async Task<IActionResult> GetById(int id)
     {
         var result = await _service.GetByIdAsync(id);
@@ -31,6 +34,7 @@ public class ReviewController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "Farmer,Admin")]
     public async Task<IActionResult> Create(ReviewCreateDto dto)
     {
         var result = await _service.CreateAsync(dto);

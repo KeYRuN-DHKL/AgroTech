@@ -17,17 +17,23 @@ public class AuthService : IAuthService
 {
     private readonly IUserRepository _userRepo;
     private readonly JwtSettings _jwtSettings;
+    private readonly ILogger<AuthService> _logger;
 
-    public AuthService(IUserRepository userRepo, IOptions<JwtSettings> jwtSettings)
+    public AuthService(IUserRepository userRepo, IOptions<JwtSettings> jwtSettings, ILogger<AuthService> logger)
     {
         _userRepo = userRepo;
         _jwtSettings = jwtSettings.Value;
+        _logger = logger;
     }
 
     public async Task<AuthResponseDto?> RegisterAsync(RegisterDto dto)
     {
-        if ((await _userRepo.GetAllAsync()).Any(u => u.Email == dto.Email))
+        var existingUser = await _userRepo.GetByEmailAsync(dto.Email);
+        if (existingUser != null)
+        {
+            _logger.LogWarning("Attempted to register with an already existing email: {Email}", dto.Email);
             return null;
+        }
 
         var refreshToken = GenerateRefreshToken();
 
@@ -37,9 +43,9 @@ public class AuthService : IAuthService
             Email = dto.Email,
             PhoneNumber = dto.PhoneNumber,
             PasswordHash = PasswordHasher.Hash(dto.Password),
-            Role = "User",
+            Role = NormalizeRole(dto.Role),
             RefreshToken = refreshToken,
-            RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7)
+            RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(_jwtSettings.RefreshTokenExpiryInDays)
         };
 
         await _userRepo.AddAsync(user);
@@ -56,12 +62,15 @@ public class AuthService : IAuthService
 
     public async Task<AuthResponseDto?> LoginAsync(LoginDto dto)
     {
-        var user = (await _userRepo.GetAllAsync()).FirstOrDefault(u => u.Email == dto.Email);
+        var user = await _userRepo.GetByEmailAsync(dto.Email);
         if (user == null || !PasswordHasher.Verify(user.PasswordHash, dto.Password))
+        {
+            _logger.LogWarning("Invalid login attempt for email: {Email}", dto.Email);
             return null;
+        }
 
         user.RefreshToken = GenerateRefreshToken();
-        user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
+        user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(_jwtSettings.RefreshTokenExpiryInDays);
         await _userRepo.SaveChangesAsync();
 
         return new AuthResponseDto
@@ -76,17 +85,24 @@ public class AuthService : IAuthService
     public async Task<AuthResponseDto?> RefreshTokenAsync(TokenDto tokenDto)
     {
         var principal = GetPrincipalFromExpiredToken(tokenDto.AccessToken);
-        if (principal == null) return null;
+        if (principal == null)
+        {
+            _logger.LogWarning("Failed to extract principal from expired token.");
+            return null;
+        }
 
         var email = principal.Identity?.Name;
-        if (email == null) return null;
+        if (string.IsNullOrEmpty(email)) return null;
 
-        var user = (await _userRepo.GetAllAsync()).FirstOrDefault(u => u.Email == email);
+        var user = await _userRepo.GetByEmailAsync(email);
         if (user == null || user.RefreshToken != tokenDto.RefreshToken || user.RefreshTokenExpiryTime <= DateTime.UtcNow)
+        {
+            _logger.LogWarning("Invalid refresh token attempt for email: {Email}", email);
             return null;
+        }
 
         user.RefreshToken = GenerateRefreshToken();
-        user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
+        user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(_jwtSettings.RefreshTokenExpiryInDays);
         await _userRepo.SaveChangesAsync();
 
         return new AuthResponseDto
@@ -101,9 +117,7 @@ public class AuthService : IAuthService
     public async Task<UserResponseDto?> GetCurrentUserAsync(int id)
     {
         var user = await _userRepo.GetByIdAsync(id);
-        if (user == null) return null;
-
-        return new UserResponseDto
+        return user == null ? null : new UserResponseDto
         {
             Id = user.Id,
             FullName = user.FullName,
@@ -123,7 +137,7 @@ public class AuthService : IAuthService
             new Claim(JwtRegisteredClaimNames.Sub, user.Email),
             new Claim(ClaimTypes.Name, user.Email),
             new Claim("id", user.Id.ToString()),
-            new Claim("role", user.Role),
+            new Claim(ClaimTypes.Role, user.Role),
             new Claim("name", user.FullName)
         };
 
@@ -145,7 +159,7 @@ public class AuthService : IAuthService
             ValidateIssuer = true,
             ValidateAudience = false,
             ValidateIssuerSigningKey = true,
-            ValidateLifetime = false, // We want to allow expired token
+            ValidateLifetime = false,
             ValidIssuer = _jwtSettings.Issuer,
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Secret))
         };
@@ -153,7 +167,7 @@ public class AuthService : IAuthService
         var tokenHandler = new JwtSecurityTokenHandler();
         try
         {
-            var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out SecurityToken securityToken);
+            var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out _);
             return principal;
         }
         catch
@@ -168,5 +182,15 @@ public class AuthService : IAuthService
         using var rng = RandomNumberGenerator.Create();
         rng.GetBytes(randomBytes);
         return Convert.ToBase64String(randomBytes);
+    }
+
+    private string NormalizeRole(string? role)
+    {
+        return role?.Trim().ToLowerInvariant() switch
+        {
+            "admin" => "Admin",
+            "owner" => "Owner",
+            _ => "Farmer"
+        };
     }
 }

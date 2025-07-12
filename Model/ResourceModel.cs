@@ -6,19 +6,14 @@ public class ResourceModel
 {
     public int Id { get; set; }
 
-    [StringLength(30, MinimumLength = 3, ErrorMessage = "Name must be between 3 and 30 characters.")]
-    [Required]
-    public required string Name { get; set; }
+    public string Name { get; set; } = null!;
 
-    [StringLength(50, MinimumLength = 3, ErrorMessage = "Description must be between 3 and 50 characters.")]
-    [Required]
-    public string? Description { get; set; }
+    public string Description { get; set; } = null!;
 
-    [Required]
     public int OwnerId { get; set; }
 
     [ForeignKey("OwnerId")]
-    public  UserModel? Owner { get; set; }
+    public UserModel? Owner { get; set; }
 
-    public ICollection<BookingModel> Bookings { get; set; } =new List<BookingModel>();
+    public ICollection<BookingModel> Bookings { get; set; } = new List<BookingModel>();
 }

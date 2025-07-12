@@ -9,15 +9,14 @@ public class ReviewModel
     public int ResourceId { get; set; }
 
     [ForeignKey("ResourceId")]
-    public ResourceModel Resource { get; set; } 
+    public ResourceModel Resource { get; set; } = null!;
 
     public int FarmerId { get; set; }
 
     [ForeignKey("FarmerId")]
-    public UserModel Farmer { get; set; }
+    public UserModel Farmer { get; set; } = null!;
 
     public int Rating { get; set; }
 
-    [StringLength(50, MinimumLength = 5, ErrorMessage = "Comment must be between 5 and 50 characters.")]
     public string? Comment { get; set; }
 }
