@@ -1,5 +1,6 @@
 using AgroTechProject.Dtos.UserDto;
 using AgroTechProject.Services.User;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AgroTechProject.Controller;
@@ -20,6 +21,13 @@ public class UserController : ControllerBase
         var user = await _service.GetByIdAsync(id);
         return user == null ? NotFound() : Ok(user);
     }
+    
+    [HttpGet("search")]
+    public async Task<IActionResult> SearchByFullName([FromQuery] string name)
+    {
+        var users = await _service.SearchByFullNameAsync(name);
+        return Ok(users);
+    }
 
     [HttpPost]
     public async Task<IActionResult> Create(UserRequestDto dto)
@@ -36,6 +44,7 @@ public class UserController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Delete(int id)
     {
         await _service.DeleteAsync(id);

@@ -1,5 +1,6 @@
 using AgroTechProject.Dtos.BookingDto;
 using AgroTechProject.Services.Booking;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 namespace AgroTechProject.Controller;
 
@@ -26,6 +27,7 @@ public class BookingController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "Farmer")]
     public async Task<IActionResult> Create([FromBody] BookingCreateDto dto)
     {
         var result = await _service.CreateBookingAsync(dto);

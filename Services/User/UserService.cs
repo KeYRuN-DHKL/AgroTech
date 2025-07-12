@@ -34,6 +34,21 @@ public class UserService : IUserService
             PhoneNumber = user.PhoneNumber
         };
     }
+    
+    public async Task<IEnumerable<UserResponseDto>> SearchByFullNameAsync(string name)
+    {
+        var users = await _repo.SearchByFullNameAsync(name);
+
+        return users.Select(user => new UserResponseDto
+        {
+            Id = user.Id,
+            FullName = user.FullName,
+            Email = user.Email,
+            Role = user.Role,
+            PhoneNumber = user.PhoneNumber
+        });
+    }
+
 
     public async Task CreateAsync(UserRequestDto dto)
     {
@@ -41,7 +56,7 @@ public class UserService : IUserService
         {
             FullName = dto.FullName,
             Email = dto.Email,
-            PasswordHash = dto.PasswordHash,
+            PasswordHash = dto.Password,
             Role = dto.Role,
             PhoneNumber = dto.PhoneNumber
         };
@@ -57,7 +72,7 @@ public class UserService : IUserService
 
         user.FullName = dto.FullName;
         user.Email = dto.Email;
-        user.PasswordHash = dto.PasswordHash;
+        user.PasswordHash = dto.Password;
         user.Role = dto.Role;
         user.PhoneNumber = dto.PhoneNumber;
 

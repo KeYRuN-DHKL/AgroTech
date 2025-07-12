@@ -1,5 +1,6 @@
 using AgroTechProject.Dtos.ResourceDto;
 using AgroTechProject.Services.Resource;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AgroTechProject.Controller;
@@ -28,6 +29,7 @@ public class ResourceController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize (Roles = "Owner")]
     public async Task<IActionResult> Create(ResourceRequestDto dto)
     {
         await _service.AddAsync(dto);
@@ -35,6 +37,7 @@ public class ResourceController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize (Roles = "Owner")]
     public async Task<IActionResult> Update(int id, ResourceRequestDto dto)
     {
         await _service.UpdateAsync(id, dto);
@@ -42,6 +45,7 @@ public class ResourceController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize (Roles = "Owner")]
     public async Task<IActionResult> Delete(int id)
     {
         await _service.DeleteAsync(id);
