@@ -13,17 +13,21 @@ public class UserModel
     [EmailAddress(ErrorMessage = "Invalid email address format.")]
     public required string Email { get; set; }
 
-    [StringLength(20, MinimumLength = 3, ErrorMessage = "Password must be between 3 and 20 characters.")]
+    [StringLength(100, MinimumLength = 3, ErrorMessage = "Password must be between 3 and 20 characters.")]
     [Required]
     public required string PasswordHash { get; set; }
-
-    [StringLength(5, MinimumLength = 4, ErrorMessage = "Role must be between 4 and 5 characters.")]
+    
     [Required]
     public required string Role { get; set; }
     
     [Phone(ErrorMessage = "Invalid phone number format.")]
     [StringLength(10, ErrorMessage = "Phone number must be 10 digits.")]
     public required string PhoneNumber { get; set; }
+    
+    [StringLength(200)]
+    public string? RefreshToken { get; set; }
+    
+    public DateTime RefreshTokenExpiryTime { get; set; }
 
     public  ICollection<ResourceModel> Resources { get; set; }
     public  ICollection<BookingModel> Bookings { get; set; }
