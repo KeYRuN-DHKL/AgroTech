@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using AgroTechProject.Enums;
 
 namespace AgroTechProject.Model
 {
@@ -23,6 +24,6 @@ namespace AgroTechProject.Model
 
         [StringLength(10, MinimumLength = 3, ErrorMessage = "status must be between 3 and 10 characters.")]
         [Required]
-        public string Status { get; set; } = "Pending"; // Pending, Approved, Rejected
+        public BookingStatus Status { get; set; } = BookingStatus.Pending; // Pending, Approved, Rejected
     }
 }

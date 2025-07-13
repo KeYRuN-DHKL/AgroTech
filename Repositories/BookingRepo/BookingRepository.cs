@@ -1,4 +1,6 @@
+using System.Linq.Expressions;
 using AgroTechProject.Data;
+using AgroTechProject.Enums;
 using AgroTechProject.Model;
 using Microsoft.EntityFrameworkCore;
 
@@ -32,6 +34,11 @@ public class BookingRepository : IBookingRepository
         _context.Bookings.Update(booking);
         await _context.SaveChangesAsync();
     }
+    
+    public async Task<bool> ExistsAsync(Expression<Func<BookingModel, bool>> predicate)
+    {
+        return await _context.Bookings.AnyAsync(predicate);
+    }
 
     public async Task DeleteAsync(int id)
     {
@@ -41,5 +48,13 @@ public class BookingRepository : IBookingRepository
             _context.Bookings.Remove(booking);
             await _context.SaveChangesAsync();
         }
+    }
+    
+    public async Task UpdateStatusAsync(int bookingId, BookingStatus newStatus)
+    {
+        var booking = await _context.Bookings.FindAsync(bookingId);
+        if (booking == null) throw new InvalidOperationException("Booking not found.");
+        booking.Status = newStatus;
+        await _context.SaveChangesAsync();
     }
 }
