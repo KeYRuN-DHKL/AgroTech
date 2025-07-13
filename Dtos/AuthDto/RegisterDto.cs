@@ -25,6 +25,4 @@ public class RegisterDto
     [Required(ErrorMessage = "Phone number is required.")]
     [RegularExpression(@"^(98|97)\d{8}$", ErrorMessage = "Phone number must be exactly 10 digits and start with '98' or '97'.")]
     public string PhoneNumber { get; set; } = null!;
-    
-    
 }
