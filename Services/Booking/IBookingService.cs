@@ -1,4 +1,5 @@
 using AgroTechProject.Dtos.BookingDto;
+using AgroTechProject.Enums;
 
 namespace AgroTechProject.Services.Booking;
 
@@ -8,4 +9,5 @@ public interface IBookingService
     Task<BookingResponseDto?> GetBookingByIdAsync(int id);
     Task<BookingResponseDto> CreateBookingAsync(BookingCreateDto dto);
     Task DeleteBookingAsync(int id);
+    Task UpdateBookingStatusAsync(int bookingId, BookingStatus status);
 }

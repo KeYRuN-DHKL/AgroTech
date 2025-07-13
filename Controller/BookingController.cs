@@ -1,4 +1,5 @@
 using AgroTechProject.Dtos.BookingDto;
+using AgroTechProject.Dtos.StatusDto;
 using AgroTechProject.Services.Booking;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -27,11 +28,18 @@ public class BookingController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize(Roles = "Farmer")]
+    [Authorize(Roles = "User,Farmer")]
     public async Task<IActionResult> Create([FromBody] BookingCreateDto dto)
     {
-        var result = await _service.CreateBookingAsync(dto);
-        return CreatedAtAction(nameof(Get), new { id = result.Id }, result);
+        try
+        {
+            var result = await _service.CreateBookingAsync(dto);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     [HttpDelete("{id}")]
@@ -39,5 +47,20 @@ public class BookingController : ControllerBase
     {
         await _service.DeleteBookingAsync(id);
         return NoContent();
+    }
+    
+    [HttpPut("{id}/status")]
+    [Authorize(Roles = "Owner")]
+    public async Task<IActionResult> UpdateStatus(int id, [FromBody] BookingStatusUpdateDto dto)
+    {
+        try
+        {
+            await _service.UpdateBookingStatusAsync(id, dto.Status);
+            return Ok(new { message = $"Booking status updated to {dto.Status}" });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 }
