@@ -51,7 +51,7 @@ public class BookingController : ControllerBase
     
     [HttpPut("{id}/status")]
     [Authorize(Roles = "Owner")]
-    public async Task<IActionResult> UpdateStatus(int id, [FromBody] BookingStatusUpdateDto dto)
+    public async Task<IActionResult> UpdateStatus(int id, [FromBody] ReservationStatusUpdateDto dto)
     {
         try
         {
@@ -62,5 +62,24 @@ public class BookingController : ControllerBase
         {
             return BadRequest(ex.Message);
         }
+    }
+    
+    [HttpGet("pending")]
+    [Authorize(Roles = "Owner")] // Only owner can view pending bookings
+    public async Task<IActionResult> GetPendingBookings()
+    {
+        var bookings = await _service.GetPendingBookingsAsync();
+        return Ok(bookings);
+    }
+    
+    [HttpPut("status-update")]
+    [Authorize(Roles = "Owner")]
+    public async Task<IActionResult> UpdateBookingStatus([FromBody] BookingStatusUpdateDto dto)
+    {
+        var updated = await _service.UpdateBookingStatusAsync(dto);
+        if (!updated)
+            return NotFound("Booking not found or already processed.");
+
+        return Ok("Booking status updated and farmer notified.");
     }
 }

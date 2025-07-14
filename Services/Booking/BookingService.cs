@@ -79,6 +79,34 @@ public class BookingService : IBookingService
             Status = created.Status
         };
     }
+    
+    public async Task<IEnumerable<BookingPendingResponseDto>> GetPendingBookingsAsync()
+    {
+        var pendingBookings = await _repo.GetAllPendingBookingsAsync();
+
+        return pendingBookings.Select(b => new BookingPendingResponseDto
+        {
+            BookingId = b.Id,
+            FarmerId = b.UserId,
+            FarmerName = b.User?.FullName ?? "Unknown",
+            StartTime = b.StartTime,
+            EndTime = b.EndTime,
+            Status = b.Status.ToString()
+        });
+    }
+    
+    public async Task<bool> UpdateBookingStatusAsync(BookingStatusUpdateDto dto)
+    {
+        var booking = await _repo.GetByIdWithUserAsync(dto.BookingId);
+        if (booking == null || booking.Status != BookingStatus.Pending)
+            return false;
+
+        booking.Status = dto.NewStatus;
+
+        await _repo.UpdateAsync(booking);
+        return true;
+    }
+
 
     public async Task DeleteBookingAsync(int id) => await _repo.DeleteAsync(id);
     
