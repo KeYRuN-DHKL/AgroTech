@@ -10,4 +10,6 @@ public interface IBookingService
     Task<BookingResponseDto> CreateBookingAsync(BookingCreateDto dto);
     Task DeleteBookingAsync(int id);
     Task UpdateBookingStatusAsync(int bookingId, BookingStatus status);
+    Task<IEnumerable<BookingPendingResponseDto>> GetPendingBookingsAsync();
+    Task<bool> UpdateBookingStatusAsync(BookingStatusUpdateDto dto);
 }

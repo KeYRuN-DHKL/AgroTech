@@ -50,6 +50,12 @@ public class BookingRepository : IBookingRepository
         }
     }
     
+    public async Task<BookingModel?> FindAsync(int id)
+    {
+        return await _context.Bookings.FindAsync(id);
+    }
+
+    
     public async Task UpdateStatusAsync(int bookingId, BookingStatus newStatus)
     {
         var booking = await _context.Bookings.FindAsync(bookingId);
@@ -57,4 +63,26 @@ public class BookingRepository : IBookingRepository
         booking.Status = newStatus;
         await _context.SaveChangesAsync();
     }
+    
+    public async Task<IEnumerable<BookingModel>> GetAllPendingBookingsAsync()
+    {
+        return await _context.Bookings
+            .Include(b => b.User)
+            .Where(b => b.Status == BookingStatus.Pending)
+            .ToListAsync();
+    }
+    
+    public async Task<BookingModel?> GetByIdWithUserAsync(int id)
+    {
+        return await _context.Bookings
+            .Include(b => b.User)
+            .FirstOrDefaultAsync(b => b.Id == id);
+    }
+
+    public async Task UpdateBookingAsync(BookingModel booking)
+    {
+        _context.Bookings.Update(booking);
+        await _context.SaveChangesAsync();
+    }
+
 }
