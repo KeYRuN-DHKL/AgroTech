@@ -1,4 +1,5 @@
 using AgroTechProject.Dtos.BookingDto;
+using AgroTechProject.Dtos.DashBoardDto;
 using AgroTechProject.Enums;
 using AgroTechProject.Model;
 using AgroTechProject.Repositories.BookingRepo;
@@ -100,18 +101,33 @@ public class BookingService : IBookingService
         var booking = await _repo.GetByIdWithUserAsync(dto.BookingId);
         if (booking == null || booking.Status != BookingStatus.Pending)
             return false;
-
+    
         booking.Status = dto.NewStatus;
-
-        await _repo.UpdateAsync(booking);
+    
+        await _repo.UpdateBookingAsync(booking);
         return true;
     }
 
+    // BookingService.cs
+    public async Task<List<AdminBookingOverviewDto>> GetAdminDashboardDataAsync()
+    {
+        var bookings = await _repo.GetAllBookingsWithRelationsAsync();
+
+        return bookings.Select(b => new AdminBookingOverviewDto
+        {
+            BookingId = b.Id,
+            OwnerName = b.Resource?.Owner?.FullName ?? "Unknown Owner",
+            ResourceName = b.Resource?.Name ?? "Unknown Resource",
+            FarmerName = b.User?.FullName ?? "Unknown Farmer",
+            StartTime = b.StartTime,
+            EndTime = b.EndTime
+        }).ToList();
+    }
 
     public async Task DeleteBookingAsync(int id) => await _repo.DeleteAsync(id);
     
-    public async Task UpdateBookingStatusAsync(int bookingId, BookingStatus status)
-    {
-        await _repo.UpdateStatusAsync(bookingId, status);
-    }
+    // public async Task UpdateBookingStatusAsync(int bookingId, BookingStatus status)
+    // {
+    //     await _repo.UpdateStatusAsync(bookingId, status);
+    // }
 }

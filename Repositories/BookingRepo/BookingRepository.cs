@@ -56,13 +56,13 @@ public class BookingRepository : IBookingRepository
     }
 
     
-    public async Task UpdateStatusAsync(int bookingId, BookingStatus newStatus)
-    {
-        var booking = await _context.Bookings.FindAsync(bookingId);
-        if (booking == null) throw new InvalidOperationException("Booking not found.");
-        booking.Status = newStatus;
-        await _context.SaveChangesAsync();
-    }
+    // public async Task UpdateStatusAsync(int bookingId, BookingStatus newStatus)
+    // {
+    //     var booking = await _context.Bookings.FindAsync(bookingId);
+    //     if (booking == null) throw new InvalidOperationException("Booking not found.");
+    //     booking.Status = newStatus;
+    //     await _context.SaveChangesAsync();
+    // }
     
     public async Task<IEnumerable<BookingModel>> GetAllPendingBookingsAsync()
     {
@@ -84,5 +84,12 @@ public class BookingRepository : IBookingRepository
         _context.Bookings.Update(booking);
         await _context.SaveChangesAsync();
     }
-
+    public async Task<List<BookingModel>> GetAllBookingsWithRelationsAsync()
+    {
+        return await _context.Bookings
+            .Include(b => b.Resource)
+            .ThenInclude(r => r.Owner)
+            .Include(b => b.User)
+            .ToListAsync();
+    }
 }

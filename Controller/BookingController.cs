@@ -1,5 +1,5 @@
 using AgroTechProject.Dtos.BookingDto;
-using AgroTechProject.Dtos.StatusDto;
+using AgroTechProject.Dtos.DashBoardDto;
 using AgroTechProject.Services.Booking;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -43,26 +43,27 @@ public class BookingController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Owner,Admin")]
     public async Task<IActionResult> Delete(int id)
     {
         await _service.DeleteBookingAsync(id);
         return NoContent();
     }
     
-    [HttpPut("{id}/status")]
-    [Authorize(Roles = "Owner")]
-    public async Task<IActionResult> UpdateStatus(int id, [FromBody] ReservationStatusUpdateDto dto)
-    {
-        try
-        {
-            await _service.UpdateBookingStatusAsync(id, dto.Status);
-            return Ok(new { message = $"Booking status updated to {dto.Status}" });
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
-    }
+    // [HttpPut("{id}/status")]
+    // [Authorize(Roles = "Owner")]
+    // public async Task<IActionResult> UpdateStatus(int id, [FromBody] ReservationStatusUpdateDto dto)
+    // {
+    //     try
+    //     {
+    //         await _service.UpdateBookingStatusAsync(id, dto.Status);
+    //         return Ok(new { message = $"Booking status updated to {dto.Status}" });
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         return BadRequest(ex.Message);
+    //     }
+    // }
     
     [HttpGet("pending")]
     [Authorize(Roles = "Owner")] // Only owner can view pending bookings
@@ -72,14 +73,34 @@ public class BookingController : ControllerBase
         return Ok(bookings);
     }
     
-    [HttpPut("status-update")]
+    [HttpPut("update-status")]
     [Authorize(Roles = "Owner")]
     public async Task<IActionResult> UpdateBookingStatus([FromBody] BookingStatusUpdateDto dto)
     {
-        var updated = await _service.UpdateBookingStatusAsync(dto);
-        if (!updated)
-            return NotFound("Booking not found or already processed.");
-
-        return Ok("Booking status updated and farmer notified.");
+        try
+        {
+            await _service.UpdateBookingStatusAsync(dto);
+            return Ok(new { message = "Booking status updated successfully." });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { error = ex.Message });
+        }
     }
+    [HttpGet("admin-dashboard")]
+    [Authorize(Roles = "Admin")]
+    public async Task<ActionResult<List<AdminBookingOverviewDto>>> GetAdminDashboard()
+    {
+        var data = await _service.GetAdminDashboardDataAsync();
+        return Ok(data);
+    }
+
+    [HttpDelete("admin-dashboard/delete/{id}")]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> DeleteBookingFromDashboard(int id)
+    {
+        await _service.DeleteBookingAsync(id);
+        return NoContent();
+    }
+
 }
