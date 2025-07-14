@@ -2,7 +2,7 @@ namespace AgroTechProject.Enums;
 
 public enum BookingStatus
 {
-    Pending,
-    Approved,
-    Rejected
+    Pending = 1,
+    Approved = 2 ,
+    Rejected = 3
 }

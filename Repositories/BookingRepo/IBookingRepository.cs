@@ -11,9 +11,10 @@ public interface IBookingRepository
     Task UpdateAsync(BookingModel booking);
     Task DeleteAsync(int id);
     Task<bool> ExistsAsync(Expression<Func<BookingModel, bool>> predicate);
-    Task UpdateStatusAsync(int bookingId, BookingStatus newStatus);
+    // Task UpdateStatusAsync(int bookingId, BookingStatus newStatus);
     Task<BookingModel?> FindAsync(int id);
     Task<IEnumerable<BookingModel>> GetAllPendingBookingsAsync();
     Task<BookingModel?> GetByIdWithUserAsync(int id);
     Task UpdateBookingAsync(BookingModel booking);
+    Task<List<BookingModel>> GetAllBookingsWithRelationsAsync();
 }
