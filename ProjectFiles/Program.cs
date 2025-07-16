@@ -63,7 +63,7 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
-        policy.WithOrigins("http://localhost:80") // Replace with your frontend URL
+        policy.WithOrigins("http://localhost:3000") // Replace with your frontend URL
               .AllowAnyHeader()
               .AllowAnyMethod());
 });
@@ -133,12 +133,21 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 // Build the app
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    dbContext.Database.Migrate();
+}
+
+
 // Swagger (only in development)
 // if (app.Environment.IsDevelopment())
 // {
     app.UseSwagger();
     app.UseSwaggerUI();
 // }
+
+
 
 // Middleware pipeline
 // app.UseHttpsRedirection(); // Optional in development
