@@ -22,6 +22,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services for controllers and Swagger
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddHealthChecks();
 
 builder.Services.AddSwaggerGen(c =>
 {
@@ -62,7 +63,7 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
-        policy.WithOrigins("http://localhost:3000") // Replace with your frontend URL
+        policy.WithOrigins("http://localhost:80") // Replace with your frontend URL
               .AllowAnyHeader()
               .AllowAnyMethod());
 });
@@ -133,11 +134,11 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 var app = builder.Build();
 
 // Swagger (only in development)
-if (app.Environment.IsDevelopment())
-{
+// if (app.Environment.IsDevelopment())
+// {
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+// }
 
 // Middleware pipeline
 // app.UseHttpsRedirection(); // Optional in development
@@ -148,5 +149,9 @@ app.UseAuthentication();          // JWT Auth
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapHealthChecks("/health");
+
+var port = Environment.GetEnvironmentVariable("PORT") ?? "80";
+app.Urls.Add($"http://*:{port}");
 
 app.Run();
