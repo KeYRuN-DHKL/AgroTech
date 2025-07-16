@@ -1,0 +1,12 @@
+﻿.dockerignore:
+```
+bin/
+obj/
+.vscode/
+.idea/
+*.user
+*.suo
+*.log
+*.db
+.env
+node_modules/
