@@ -10,8 +10,6 @@ public class ReviewModel
     public ResourceModel Resource { get; set; } = null!;
 
     public int FarmerId { get; set; }
-
-    [ForeignKey("FarmerId")]
     public UserModel Farmer { get; set; } = null!;
 
     public int Rating { get; set; }
