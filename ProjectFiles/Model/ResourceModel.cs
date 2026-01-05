@@ -10,9 +10,7 @@ public class ResourceModel
     public string Description { get; set; } = null!;
 
     public int OwnerId { get; set; }
-
-    [ForeignKey("OwnerId")]
-    public UserModel? Owner { get; set; }
+    public UserModel Owner { get; set; } = null!;
 
     public ICollection<BookingModel> Bookings { get; set; } = new List<BookingModel>();
 }
