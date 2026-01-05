@@ -7,8 +7,6 @@ public class ReviewModel
     public int Id { get; set; }
 
     public int ResourceId { get; set; }
-
-    [ForeignKey("ResourceId")]
     public ResourceModel Resource { get; set; } = null!;
 
     public int FarmerId { get; set; }
@@ -18,5 +16,5 @@ public class ReviewModel
 
     public int Rating { get; set; }
 
-    public string? Comment { get; set; }
+    public string Comment { get; set; } = null!;
 }

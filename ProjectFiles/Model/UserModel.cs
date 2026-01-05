@@ -15,7 +15,7 @@ public class UserModel
 
     public string PhoneNumber { get; set; } = null!;
 
-    public string? RefreshToken { get; set; }
+    public string? RefreshToken { get; set; } 
 
     public DateTime RefreshTokenExpiryTime { get; set; }
 
