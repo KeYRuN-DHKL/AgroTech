@@ -22,7 +22,7 @@ public class AppDbContext : DbContext
             Id = 1,
             FullName = "Default Owner",
             Email = "owner@example.com",
-            PasswordHash = "hashed-password", // Use actual hash in real world
+            PasswordHash = "owner123", 
             Role = "Owner",
             PhoneNumber = "9816067483"
         });

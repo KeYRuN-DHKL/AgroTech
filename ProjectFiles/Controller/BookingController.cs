@@ -9,21 +9,21 @@ namespace AgroTechProject.Controller;
 [Route("api/[controller]")]
 public class BookingController : ControllerBase
 {
-    private readonly IBookingService _service;
+    private readonly IBookingService _bookingService;
 
     public BookingController(IBookingService service)
     {
-        _service = service;
+        _bookingService = service;
     }
 
     [HttpGet]
     public async Task<IActionResult> GetAll() =>
-        Ok(await _service.GetAllBookingsAsync());
+        Ok(await _bookingService.GetAllBookingsAsync());
 
     [HttpGet("{id}")]
     public async Task<IActionResult> Get(int id)
     {
-        var booking = await _service.GetBookingByIdAsync(id);
+        var booking = await _bookingService.GetBookingByIdAsync(id);
         return booking == null ? NotFound() : Ok(booking);
     }
 
@@ -33,7 +33,7 @@ public class BookingController : ControllerBase
     {
         try
         {
-            var result = await _service.CreateBookingAsync(dto);
+            var result = await _bookingService.CreateBookingAsync(dto);
             return Ok(result);
         }
         catch (Exception ex)
@@ -46,7 +46,7 @@ public class BookingController : ControllerBase
     [Authorize(Roles = "Owner,Admin")]
     public async Task<IActionResult> Delete(int id)
     {
-        await _service.DeleteBookingAsync(id);
+        await _bookingService.DeleteBookingAsync(id);
         return NoContent();
     }
     
@@ -56,7 +56,7 @@ public class BookingController : ControllerBase
     // {
     //     try
     //     {
-    //         await _service.UpdateBookingStatusAsync(id, dto.Status);
+    //         await _bookingService.UpdateBookingStatusAsync(id, dto.Status);
     //         return Ok(new { message = $"Booking status updated to {dto.Status}" });
     //     }
     //     catch (Exception ex)
@@ -69,7 +69,7 @@ public class BookingController : ControllerBase
     [Authorize(Roles = "Owner")] // Only owner can view pending bookings
     public async Task<IActionResult> GetPendingBookings()
     {
-        var bookings = await _service.GetPendingBookingsAsync();
+        var bookings = await _bookingService.GetPendingBookingsAsync();
         return Ok(bookings);
     }
     
@@ -79,7 +79,7 @@ public class BookingController : ControllerBase
     {
         try
         {
-            await _service.UpdateBookingStatusAsync(dto);
+            await _bookingService.UpdateBookingStatusAsync(dto);
             return Ok(new { message = "Booking status updated successfully." });
         }
         catch (Exception ex)
@@ -91,7 +91,7 @@ public class BookingController : ControllerBase
     [Authorize(Roles = "Admin")]
     public async Task<ActionResult<List<AdminBookingOverviewDto>>> GetAdminDashboard()
     {
-        var data = await _service.GetAdminDashboardDataAsync();
+        var data = await _bookingService.GetAdminDashboardDataAsync();
         return Ok(data);
     }
 
@@ -99,7 +99,7 @@ public class BookingController : ControllerBase
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> DeleteBookingFromDashboard(int id)
     {
-        await _service.DeleteBookingAsync(id);
+        await _bookingService.DeleteBookingAsync(id);
         return NoContent();
     }
 

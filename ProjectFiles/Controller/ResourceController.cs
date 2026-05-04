@@ -9,21 +9,23 @@ namespace AgroTechProject.Controller;
 [Route("api/[controller]")]
 public class ResourceController : ControllerBase
 {
-    private readonly IResourceService _service;
+    private readonly IResourceService _resourceservice;
 
-    public ResourceController(IResourceService service)
+    public ResourceController(IResourceService resourceservice)
     {
-        _service = service;
+        _resourceservice = resourceservice;
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll() =>
-        Ok(await _service.GetAllAsync());
+    public async Task<IActionResult> GetAll() {
+        return Ok(await _resourceservice.GetAllAsync());
+    }
+       
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id)
     {
-        var resource = await _service.GetByIdAsync(id);
+        var resource = await _resourceservice.GetByIdAsync(id);
         if (resource == null) return NotFound();
         return Ok(resource);
     }
@@ -32,7 +34,7 @@ public class ResourceController : ControllerBase
     [Authorize (Roles = "Owner")]
     public async Task<IActionResult> Create(ResourceRequestDto dto)
     {
-        await _service.AddAsync(dto);
+        await _resourceservice.AddAsync(dto);
         return Ok();
     }
 
@@ -40,7 +42,7 @@ public class ResourceController : ControllerBase
     [Authorize (Roles = "Owner")]
     public async Task<IActionResult> Update(int id, ResourceRequestDto dto)
     {
-        await _service.UpdateAsync(id, dto);
+        await _resourceservice.UpdateAsync(id, dto);
         return Ok();
     }
 
@@ -48,7 +50,7 @@ public class ResourceController : ControllerBase
     [Authorize (Roles = "Owner")]
     public async Task<IActionResult> Delete(int id)
     {
-        await _service.DeleteAsync(id);
+        await _resourceservice.DeleteAsync(id);
         return Ok();
     }
 }
