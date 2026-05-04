@@ -3,6 +3,9 @@
 # ========================
 
 # Build results
+.vs/
+*.user
+*.suo
 bin/
 obj/
 *.dll
