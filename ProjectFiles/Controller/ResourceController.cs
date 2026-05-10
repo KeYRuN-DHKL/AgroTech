@@ -31,7 +31,7 @@ public class ResourceController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize (Roles = "Owner")]
+    [Authorize (Roles = "Owner,Admin")]
     public async Task<IActionResult> Create(ResourceRequestDto dto)
     {
         await _resourceservice.AddAsync(dto);
@@ -39,7 +39,7 @@ public class ResourceController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    [Authorize (Roles = "Owner")]
+    [Authorize (Roles = "Owner,Admin")]
     public async Task<IActionResult> Update(int id, ResourceRequestDto dto)
     {
         await _resourceservice.UpdateAsync(id, dto);
@@ -47,7 +47,7 @@ public class ResourceController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    [Authorize (Roles = "Owner")]
+    [Authorize (Roles = "Owner,Admin")]
     public async Task<IActionResult> Delete(int id)
     {
         await _resourceservice.DeleteAsync(id);

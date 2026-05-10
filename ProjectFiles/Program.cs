@@ -68,11 +68,11 @@ builder.Services.AddCors(options =>
               .AllowAnyMethod());
 });
 
-// Register DbContext with PostgreSQL
+// Register DbContext with MySql
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySql(
         builder.Configuration.GetConnectionString("DefaultConnection"),
-        new MySqlServerVersion(new Version(8, 0, 0))
+        new MySqlServerVersion(new Version(10,4,32))
     ));
 
 builder.Services.Configure<JwtSettings>(

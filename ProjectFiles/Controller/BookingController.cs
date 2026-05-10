@@ -28,7 +28,7 @@ public class BookingController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize(Roles = "User,Farmer")]
+    [Authorize(Roles = "User,Farmer,Admin")]
     public async Task<IActionResult> Create([FromBody] BookingCreateDto dto)
     {
         try
@@ -66,7 +66,7 @@ public class BookingController : ControllerBase
     // }
     
     [HttpGet("pending")]
-    [Authorize(Roles = "Owner")] // Only owner can view pending bookings
+    [Authorize(Roles = "Owner,Admin")] // Only owner can view pending bookings
     public async Task<IActionResult> GetPendingBookings()
     {
         var bookings = await _bookingService.GetPendingBookingsAsync();
@@ -74,7 +74,7 @@ public class BookingController : ControllerBase
     }
     
     [HttpPut("update-status")]
-    [Authorize(Roles = "Owner")]
+    [Authorize(Roles = "Owner,Admin")]
     public async Task<IActionResult> UpdateBookingStatus([FromBody] BookingStatusUpdateDto dto)
     {
         try
