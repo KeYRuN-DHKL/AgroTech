@@ -35,7 +35,7 @@ public class ResourceController : ControllerBase
     public async Task<IActionResult> Create(ResourceRequestDto dto)
     {
         await _resourceservice.AddAsync(dto);
-        return Ok();
+        return Ok("Resource Added Successfully");
     }
 
     [HttpPut("{id}")]
@@ -43,7 +43,7 @@ public class ResourceController : ControllerBase
     public async Task<IActionResult> Update(int id, ResourceRequestDto dto)
     {
         await _resourceservice.UpdateAsync(id, dto);
-        return Ok();
+        return Ok("Resource Updated Successfully");
     }
 
     [HttpDelete("{id}")]
@@ -51,6 +51,6 @@ public class ResourceController : ControllerBase
     public async Task<IActionResult> Delete(int id)
     {
         await _resourceservice.DeleteAsync(id);
-        return Ok();
+        return Ok("Resource deleted successfully");
     }
 }

@@ -25,6 +25,7 @@ obj/
 # Secrets and config
 secrets.json
 appsettings.Development.json
+appsettings.Production.json
 appsettings.Local.json
 .env
 
