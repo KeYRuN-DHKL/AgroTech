@@ -21,14 +21,14 @@ public class BookingController : ControllerBase
         Ok(await _bookingService.GetAllBookingsAsync());
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> Get(int id)
+    public async Task<IActionResult> GetById([FromRoute] int id)
     {
         var booking = await _bookingService.GetBookingByIdAsync(id);
         return booking == null ? NotFound() : Ok(booking);
     }
 
     [HttpPost]
-    [Authorize(Roles = "User,Farmer,Admin")]
+    [Authorize(Roles = "Farmer,Admin")]
     public async Task<IActionResult> Create([FromBody] BookingCreateDto dto)
     {
         try
@@ -87,6 +87,7 @@ public class BookingController : ControllerBase
             return BadRequest(new { error = ex.Message });
         }
     }
+
     [HttpGet("admin-dashboard")]
     [Authorize(Roles = "Admin")]
     public async Task<ActionResult<List<AdminBookingOverviewDto>>> GetAdminDashboard()

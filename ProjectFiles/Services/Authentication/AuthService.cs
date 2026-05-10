@@ -31,7 +31,7 @@ public class AuthService : IAuthService
         var existingUser = await _userRepo.GetByEmailAsync(dto.Email);
         if (existingUser != null)
         {
-            _logger.LogWarning("Attempted to register with an already existing email: {Email}", dto.Email);
+            _logger.LogWarning("Attempted to register with an already existing email: {email}", dto.Email);
             return null;
         }
 

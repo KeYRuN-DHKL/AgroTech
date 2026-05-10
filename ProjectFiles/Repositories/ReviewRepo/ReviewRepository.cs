@@ -31,15 +31,16 @@ public class ReviewRepository : IReviewRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task UpdateAsync(ReviewModel review)
-    {
-        _context.Reviews.Update(review);
-        await _context.SaveChangesAsync();
-    }
+    //public async Task UpdateAsync(ReviewModel review)
+    //{
+    //    _context.Reviews.Update(review);
+    //    await _context.SaveChangesAsync();
+    //}
 
-    public async Task DeleteAsync(ReviewModel review)
-    {
-        _context.Reviews.Remove(review);
-        await _context.SaveChangesAsync();
-    }
+    //public async Task DeleteAsync(ReviewModel review)
+    //{
+    //    _context.Reviews.Remove(review);
+    //    await _context.SaveChangesAsync();
+    //}
+
 }
