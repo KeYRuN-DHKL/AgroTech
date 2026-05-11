@@ -1,6 +1,7 @@
 using AgroTechProject.Dtos.ResourceDto;
 using AgroTechProject.Model;
 using AgroTechProject.Repositories.ResourceRepo;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AgroTechProject.Services.Resource;
 
@@ -53,7 +54,8 @@ public class ResourceService : IResourceService
         await _repo.AddAsync(resource);
     }
 
-    public async Task UpdateAsync(int id, ResourceRequestDto dto)
+    [HttpPut("Update/{id}")]
+    public async Task UpdateAsync(int id,ResourceRequestDto dto)
     {
         var resource = await _repo.GetByIdAsync(id);
         if (resource == null) return;

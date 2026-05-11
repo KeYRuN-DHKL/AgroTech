@@ -12,5 +12,6 @@ public interface IUserService
     Task<IEnumerable<UserResponseDto>> SearchByFullNameAsync(string name);
     Task CreateAsync(UserRequestDto dto);
     Task UpdateAsync(int id, UserRequestDto dto);
+    Task ForgotPasswordAsync(string email, string password);
     Task DeleteAsync(int id);
 }

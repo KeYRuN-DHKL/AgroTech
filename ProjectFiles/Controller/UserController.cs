@@ -49,6 +49,13 @@ public class UserController : ControllerBase
         return NoContent();
     }
 
+    [HttpPut("Reset-Password")]
+    public async Task<IActionResult> UpdatePassword([FromQuery] string email,[FromQuery] string password)
+    {
+        await _userService.ForgotPasswordAsync(email, password);
+        return Ok("Password Reset Successfully...");
+    }
+
     [HttpDelete("{id}")]
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Delete(int id)

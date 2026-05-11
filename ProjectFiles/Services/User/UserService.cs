@@ -1,13 +1,22 @@
 using AgroTechProject.Dtos.UserDto;
+using AgroTechProject.Helpers;
 using AgroTechProject.Model;
 using AgroTechProject.Repositories.UserRepo;
+using AgroTechProject.Settings;
+using Microsoft.Extensions.Options;
 
 namespace AgroTechProject.Services.User;
 
 public class UserService : IUserService
 {
     private readonly IUserRepository _repo;
-    public UserService(IUserRepository repo) => _repo = repo;
+    private readonly JwtSettings _jwtSettings;
+    public UserService(IUserRepository repo,IOptions<JwtSettings> jwtSettings)
+    {
+        _repo = repo;
+        _jwtSettings = jwtSettings.Value;
+
+    }
 
     public async Task<IEnumerable<UserResponseDto>> GetAllAsync()
     {
@@ -52,13 +61,16 @@ public class UserService : IUserService
 
     public async Task CreateAsync(UserRequestDto dto)
     {
+        var refreshToken = TokenGenerator.GenerateRefreshToken();
         var user = new UserModel
         {
             FullName = dto.FullName,
             Email = dto.Email,
-            PasswordHash = dto.Password,
-            Role = dto.Role,
-            PhoneNumber = dto.PhoneNumber
+            PasswordHash = PasswordHasher.Hash(dto.Password),
+            Role = NormalizeRole(dto.Role),
+            PhoneNumber = dto.PhoneNumber,
+            RefreshToken = refreshToken,
+            RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(_jwtSettings.RefreshTokenExpiryInDays)
         };
 
         await _repo.AddAsync(user);
@@ -72,9 +84,21 @@ public class UserService : IUserService
 
         user.FullName = dto.FullName;
         user.Email = dto.Email;
-        user.PasswordHash = dto.Password;
-        user.Role = dto.Role;
+        user.Role = NormalizeRole(dto.Role);
         user.PhoneNumber = dto.PhoneNumber;
+
+        _repo.Update(user);
+        await _repo.SaveChangesAsync();
+    }
+
+    public async Task ForgotPasswordAsync(string email,string password)
+    {
+        var user = await _repo.GetByEmailAsync(email);
+        if (user == null) return;
+
+        user.PasswordHash = PasswordHasher.Hash(password);
+        user.RefreshToken = TokenGenerator.GenerateRefreshToken();
+        user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(_jwtSettings.RefreshTokenExpiryInDays);
 
         _repo.Update(user);
         await _repo.SaveChangesAsync();
@@ -87,5 +111,15 @@ public class UserService : IUserService
 
         _repo.Delete(user);
         await _repo.SaveChangesAsync();
+    }
+
+    private string NormalizeRole(string? role)
+    {
+        return role?.Trim().ToLowerInvariant() switch
+        {
+            "admin" => "Admin",
+            "owner" => "Owner",
+            _ => "Farmer"
+        };
     }
 }
