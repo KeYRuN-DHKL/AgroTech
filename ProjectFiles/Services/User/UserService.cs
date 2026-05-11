@@ -80,7 +80,8 @@ public class UserService : IUserService
     public async Task UpdateAsync(int id, UserRequestDto dto)
     {
         var user = await _repo.GetByIdAsync(id);
-        if (user == null) return;
+        if (user == null)
+            throw new InvalidOperationException("User does not exits...");
 
         user.FullName = dto.FullName;
         user.Email = dto.Email;
@@ -94,7 +95,8 @@ public class UserService : IUserService
     public async Task ForgotPasswordAsync(string email,string password)
     {
         var user = await _repo.GetByEmailAsync(email);
-        if (user == null) return;
+        if (user == null)
+            throw new InvalidOperationException("User does not Exists..."); 
 
         user.PasswordHash = PasswordHasher.Hash(password);
         user.RefreshToken = TokenGenerator.GenerateRefreshToken();
@@ -107,7 +109,8 @@ public class UserService : IUserService
     public async Task DeleteAsync(int id)
     {
         var user = await _repo.GetByIdAsync(id);
-        if (user == null) return;
+        if (user == null)
+            throw new InvalidOperationException("User does not exists...");
 
         _repo.Delete(user);
         await _repo.SaveChangesAsync();

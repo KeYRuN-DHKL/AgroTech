@@ -45,22 +45,41 @@ public class UserController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(int id, UserRequestDto dto)
     {
-        await _userService.UpdateAsync(id, dto);
-        return NoContent();
+        try
+        {
+            await _userService.UpdateAsync(id, dto);
+            return NoContent();
+        }catch(InvalidOperationException ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     [HttpPut("Reset-Password")]
     public async Task<IActionResult> UpdatePassword([FromQuery] string email,[FromQuery] string password)
     {
-        await _userService.ForgotPasswordAsync(email, password);
-        return Ok("Password Reset Successfully...");
+        try
+        {
+            await _userService.ForgotPasswordAsync(email, password);
+            return Ok("Password Reset Successfully...");
+        }
+        catch(InvalidOperationException ex)
+        {
+            return BadRequest(ex.Message);
+        }    
     }
 
     [HttpDelete("{id}")]
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Delete(int id)
     {
-        await _userService.DeleteAsync(id);
-        return NoContent();
+        try
+        {
+            await _userService.DeleteAsync(id);
+            return NoContent();
+        }catch(InvalidOperationException ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 }
