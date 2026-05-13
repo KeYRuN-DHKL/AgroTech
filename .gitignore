@@ -21,11 +21,7 @@ obj/
 *.DotSettings.user
 
 # Secrets and config
-secrets.json
-appsettings.Development.json
-appsettings.Production.json
-appsettings.Local.json
-appsettings.json
+appsettings.developement.json
 .env
 
 # Logs
