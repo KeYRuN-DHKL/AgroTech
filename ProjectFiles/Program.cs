@@ -22,12 +22,6 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-Console.WriteLine("=== ALL ENVIRONMENT VARIABLES ===");
-Console.WriteLine($"AppDbConnection: {builder.Configuration.GetConnectionString("AppDbConnection")}");
-Console.WriteLine($"DefaultConnection: {builder.Configuration.GetConnectionString("DefaultConnection")}");
-Console.WriteLine($"Direct ENV: {Environment.GetEnvironmentVariable("ConnectionStrings__AppDbConnection")}");
-Console.WriteLine("=================================");
-
 // Add services for controllers and Swagger
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
