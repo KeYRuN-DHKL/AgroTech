@@ -178,25 +178,33 @@ builder.Host.UseSerilog((context, config) =>
     outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}: {SourceContext}:{Message}{NewLine}{Exception}]"
     )
 
-    .WriteTo.File(
+    .WriteTo.Conditional(
+        e => isDevelopment,
+        wt => wt.File(
                 logPath,
                 rollingInterval: RollingInterval.Day,
                 retainedFileCountLimit: Convert.ToInt32(retainedDays),
                 fileSizeLimitBytes: 10_000_000,
                 rollOnFileSizeLimit: true,
                 outputTemplate:
-                " Date : {Timestamp:yyyy-MM-dd HH:mm:ss}" 
+                " Date : {Timestamp:yyyy-MM-dd HH:mm:ss}"
                 + "{NewLine} Severity-Level : [{Level:u3}]"
-                + "{NewLine} Source/Controller : {SourceContext}" 
-                +" {NewLine} Message : {Message}"
-                + "{NewLine} Machine : {MachineName} " 
+                + "{NewLine} Source/Controller : {SourceContext}"
+                + " {NewLine} Message : {Message}"
+                + "{NewLine} Machine : {MachineName} "
                 + "{NewLine} ThreadId : {ThreadId} "
                 + "{NewLine} Environment : {Environment}"
                 + "{NewLine} Application: {Application} "
                 + "{NewLine} {Exception}"
-                +"============================"
-                +"{NewLine}"
-            );
+                + "============================"
+                + "{NewLine}"
+            ))
+
+    .WriteTo.Conditional(
+        e => !isDevelopment,
+        wt => wt.Seq(
+             context.Configuration["Serilog:SeqUrl"]
+            ));
 });
 
 // Build the app
