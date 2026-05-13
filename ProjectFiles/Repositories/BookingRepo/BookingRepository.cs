@@ -15,8 +15,10 @@ public class BookingRepository : IBookingRepository
         _context = context;
     }
 
-    public async Task<IEnumerable<BookingModel>> GetAllAsync() =>
+    public async Task<IEnumerable<BookingModel>> GetAllAsync()
+    {
         await _context.Bookings.Include(b => b.Resource).Include(b => b.User).ToListAsync();
+    }
 
     public async Task<BookingModel?> GetByIdAsync(int id) =>
         await _context.Bookings.Include(b => b.Resource).Include(b => b.User)
