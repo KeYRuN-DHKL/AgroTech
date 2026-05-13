@@ -4,8 +4,6 @@
 
 # Build results
 .vs/
-*.user
-*.suo
 bin/
 obj/
 *.dll
@@ -27,10 +25,12 @@ secrets.json
 appsettings.Development.json
 appsettings.Production.json
 appsettings.Local.json
+appsettings.json
 .env
 
 # Logs
 *.log
+logs/
 
 # Entity Framework
 Migrations/*Snapshot.cs
