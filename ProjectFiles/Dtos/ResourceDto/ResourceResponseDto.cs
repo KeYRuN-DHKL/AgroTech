@@ -7,4 +7,5 @@ public class ResourceResponseDto
     public required string Description { get; set; } = null!;
     public int OwnerId { get; set; }
     public required string OwnerName { get; set; } = null!;
+    public string? ImageUrl { get; set; } 
 }

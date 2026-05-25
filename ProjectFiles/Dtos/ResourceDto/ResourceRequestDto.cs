@@ -15,4 +15,6 @@ public class ResourceRequestDto
     [Required(ErrorMessage = "OwnerId is required.")]
     [Range(1, int.MaxValue, ErrorMessage = "OwnerId must be a positive number.")]
     public int OwnerId { get; set; }
+
+    public IFormFile? Image { get; set; }
 }

@@ -82,6 +82,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.Configure<JwtSettings>(
     builder.Configuration.GetSection("JwtSettings"));
 
+builder.Services.Configure<CloudinarySettings>(
+    builder.Configuration.GetSection("CloudinarySettings"));
+
 // Register repositories
 builder.Services.AddScoped<IBookingRepository, BookingRepository>();
 builder.Services.AddScoped<IResourceRepository, ResourceRepository>();

@@ -32,25 +32,45 @@ public class ResourceController : ControllerBase
 
     [HttpPost]
     [Authorize (Roles = "Owner,Admin")]
-    public async Task<IActionResult> Create(ResourceRequestDto dto)
+    public async Task<IActionResult> Create([FromForm] ResourceRequestDto dto)
     {
-        await _resourceservice.AddAsync(dto);
-        return Ok("Resource Added Successfully");
+        try
+        {
+            await _resourceservice.AddAsync(dto);
+            return Ok("Resource Added Successfully");
+        }
+        catch(Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     [HttpPut("{id}")]
     [Authorize (Roles = "Owner,Admin")]
-    public async Task<IActionResult> Update(int id, ResourceRequestDto dto)
+    public async Task<IActionResult> Update(int id,[FromForm] ResourceRequestDto dto)
     {
-        await _resourceservice.UpdateAsync(id, dto);
-        return Ok("Resource Updated Successfully");
+        try
+        {
+            await _resourceservice.UpdateAsync(id, dto);
+            return Ok("Resource Updated Successfully");
+        }catch(Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     [HttpDelete("{id}")]
     [Authorize (Roles = "Owner,Admin")]
     public async Task<IActionResult> Delete(int id)
     {
-        await _resourceservice.DeleteAsync(id);
-        return Ok("Resource deleted successfully");
+        try
+        {
+            await _resourceservice.DeleteAsync(id);
+            return Ok("Resource deleted successfully");
+        }
+        catch(Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 }
