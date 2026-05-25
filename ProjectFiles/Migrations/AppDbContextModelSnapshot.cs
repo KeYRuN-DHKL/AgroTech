@@ -66,12 +66,19 @@ namespace AgroTechProject.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<int>("OwnerId")
                         .HasColumnType("int");
+
+                    b.Property<string>("PublicId")
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
@@ -84,6 +91,7 @@ namespace AgroTechProject.Migrations
                         {
                             Id = 1,
                             Description = "Seeded tractor",
+                            ImageUrl = "",
                             Name = "Default Tractor",
                             OwnerId = 1
                         });

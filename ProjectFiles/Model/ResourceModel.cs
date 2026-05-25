@@ -8,6 +8,8 @@ public class ResourceModel
     public string Name { get; set; } = null!;
 
     public string Description { get; set; } = null!;
+    public string ImageUrl { get; set; } = string.Empty;
+    public string? PublicId { get; set; }
 
     public int OwnerId { get; set; }
     public UserModel Owner { get; set; } = null!;
