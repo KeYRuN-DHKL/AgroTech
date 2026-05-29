@@ -23,8 +23,8 @@ public class BookingController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById([FromRoute] int id)
     {
-        var booking = await _bookingService.GetBookingByIdAsync(id);
-        return booking == null ? NotFound() : Ok(booking);
+        var bookings = await _bookingService.GetBookingByIdAsync(id);
+        return bookings == null ? NotFound() : Ok(bookings);
     }
 
     [HttpPost]
