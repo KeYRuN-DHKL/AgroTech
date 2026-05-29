@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using AgroTechProject.Model;
+using AgroTechProject.Helpers;
 
 namespace AgroTechProject.Data;
 
@@ -20,20 +21,20 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<UserModel>().HasData(new UserModel
         {
             Id = 1,
-            FullName = "Default Owner",
-            Email = "owner@example.com",
-            PasswordHash = "owner123", 
-            Role = "Owner",
-            PhoneNumber = "9816067483"
+            FullName = "Kiran Dhakal",
+            Email = "kiran@gmail.com",
+            PasswordHash = "kiran123",
+            PhoneNumber = "9813413252",
+            Role = "Admin",
         });
 
         // Seed a default resource owned by the above user
         modelBuilder.Entity<ResourceModel>().HasData(new ResourceModel
         {
             Id = 1,
-            Name = "Default Tractor",
-            Description = "Seeded tractor",
-            OwnerId = 1
+            Name = "Tractor",
+            Description = "Use for ploughing the field",
+            OwnerId = 1,
         });
     }
 }

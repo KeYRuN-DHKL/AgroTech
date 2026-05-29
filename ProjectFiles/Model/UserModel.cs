@@ -11,13 +11,14 @@ public class UserModel
 
     public string PasswordHash { get; set; } = null!;
 
-    public string Role { get; set; } = null!;
+    public string Role { get; set; }
 
     public string PhoneNumber { get; set; } = null!;
 
     public string? RefreshToken { get; set; } 
 
     public DateTime RefreshTokenExpiryTime { get; set; }
+    public DateTime CreatedAt { get; set; } 
 
     public ICollection<ResourceModel> Resources { get; set; } = new List<ResourceModel>();
 

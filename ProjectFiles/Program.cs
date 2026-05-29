@@ -1,10 +1,12 @@
 using AgroTechProject.Data;
 using AgroTechProject.Repositories.BookingRepo;
+using AgroTechProject.Repositories.DashboardRepo;
 using AgroTechProject.Repositories.ResourceRepo;
 using AgroTechProject.Repositories.ReviewRepo;
 using AgroTechProject.Repositories.UserRepo;
 using AgroTechProject.Services.Authentication;
 using AgroTechProject.Services.Booking;
+using AgroTechProject.Services.Dashboard;
 using AgroTechProject.Services.Resource;
 using AgroTechProject.Services.Review;
 using AgroTechProject.Services.User;
@@ -96,6 +98,8 @@ builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddScoped<IResourceService, ResourceService>();
 builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IDashboardRepository, DashboardRepository>();
+builder.Services.AddScoped<IDashboardService, DashboardService>();
 
 // Register Auth Service
 builder.Services.AddScoped<IAuthService, AuthService>();

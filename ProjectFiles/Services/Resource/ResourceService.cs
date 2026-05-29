@@ -82,7 +82,8 @@ public class ResourceService : IResourceService
             Description = dto.Description,
             OwnerId = dto.OwnerId,
             ImageUrl = ImageUrl!,
-            PublicId = ResourceId
+            PublicId = ResourceId,
+            CreatedAt = DateTime.UtcNow
         };
 
         await _repo.AddAsync(resource);

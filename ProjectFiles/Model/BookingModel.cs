@@ -16,7 +16,7 @@ namespace AgroTechProject.Model
 
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
-        
+        public DateTime CreatedAt { get; set; } 
         [Required]
         public BookingStatus Status { get; set; } = BookingStatus.Pending; // Pending, Approved, Rejected
     }

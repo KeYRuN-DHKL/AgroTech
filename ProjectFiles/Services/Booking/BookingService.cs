@@ -64,7 +64,8 @@ public class BookingService : IBookingService
             ResourceId = dto.ResourceId,
             UserId = dto.UserId,
             StartTime = dto.StartTime,
-            EndTime = dto.EndTime
+            EndTime = dto.EndTime,
+            CreatedAt = DateTime.UtcNow
         };
 
         var created = await _repo.CreateAsync(booking);

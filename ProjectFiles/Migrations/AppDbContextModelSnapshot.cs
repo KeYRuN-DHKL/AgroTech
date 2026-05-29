@@ -30,6 +30,9 @@ namespace AgroTechProject.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("datetime(6)");
 
@@ -62,6 +65,9 @@ namespace AgroTechProject.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -90,9 +96,10 @@ namespace AgroTechProject.Migrations
                         new
                         {
                             Id = 1,
-                            Description = "Seeded tractor",
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Use for ploughing the field",
                             ImageUrl = "",
-                            Name = "Default Tractor",
+                            Name = "Tractor",
                             OwnerId = 1
                         });
                 });
@@ -135,6 +142,9 @@ namespace AgroTechProject.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -169,12 +179,13 @@ namespace AgroTechProject.Migrations
                         new
                         {
                             Id = 1,
-                            Email = "owner@example.com",
-                            FullName = "Default Owner",
-                            PasswordHash = "owner123",
-                            PhoneNumber = "9816067483",
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "kiran@gmail.com",
+                            FullName = "Kiran Dhakal",
+                            PasswordHash = "kiran123",
+                            PhoneNumber = "9813413252",
                             RefreshTokenExpiryTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Role = "Owner"
+                            Role = "Admin"
                         });
                 });
 

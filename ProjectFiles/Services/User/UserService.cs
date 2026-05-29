@@ -69,6 +69,7 @@ public class UserService : IUserService
             PasswordHash = PasswordHasher.Hash(dto.Password),
             Role = NormalizeRole(dto.Role),
             PhoneNumber = dto.PhoneNumber,
+            CreatedAt = DateTime.UtcNow,
             RefreshToken = refreshToken,
             RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(_jwtSettings.RefreshTokenExpiryInDays)
         };
