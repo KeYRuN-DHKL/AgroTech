@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AgroTechProject.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260529151935_initialcreate")]
+    [Migration("20260529161034_initialcreate")]
     partial class initialcreate
     {
         /// <inheritdoc />
@@ -32,9 +32,6 @@ namespace AgroTechProject.Migrations
                         .HasColumnType("int");
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime(6)");
 
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("datetime(6)");
@@ -68,9 +65,6 @@ namespace AgroTechProject.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -99,7 +93,6 @@ namespace AgroTechProject.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Use for ploughing the field",
                             ImageUrl = "",
                             Name = "Tractor",
@@ -145,9 +138,6 @@ namespace AgroTechProject.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -182,7 +172,6 @@ namespace AgroTechProject.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "kiran@gmail.com",
                             FullName = "Kiran Dhakal",
                             PasswordHash = "kiran123",

@@ -33,8 +33,7 @@ namespace AgroTechProject.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     RefreshToken = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    RefreshTokenExpiryTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                    RefreshTokenExpiryTime = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -56,8 +55,7 @@ namespace AgroTechProject.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     PublicId = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    OwnerId = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                    OwnerId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -81,7 +79,6 @@ namespace AgroTechProject.Migrations
                     UserId = table.Column<int>(type: "int", nullable: false),
                     StartTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     EndTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -134,13 +131,13 @@ namespace AgroTechProject.Migrations
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "CreatedAt", "Email", "FullName", "PasswordHash", "PhoneNumber", "RefreshToken", "RefreshTokenExpiryTime", "Role" },
-                values: new object[] { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "kiran@gmail.com", "Kiran Dhakal", "kiran123", "9813413252", null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Admin" });
+                columns: new[] { "Id", "Email", "FullName", "PasswordHash", "PhoneNumber", "RefreshToken", "RefreshTokenExpiryTime", "Role" },
+                values: new object[] { 1, "kiran@gmail.com", "Kiran Dhakal", "kiran123", "9813413252", null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Admin" });
 
             migrationBuilder.InsertData(
                 table: "Resources",
-                columns: new[] { "Id", "CreatedAt", "Description", "ImageUrl", "Name", "OwnerId", "PublicId" },
-                values: new object[] { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Use for ploughing the field", "", "Tractor", 1, null });
+                columns: new[] { "Id", "Description", "ImageUrl", "Name", "OwnerId", "PublicId" },
+                values: new object[] { 1, "Use for ploughing the field", "", "Tractor", 1, null });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bookings_ResourceId",

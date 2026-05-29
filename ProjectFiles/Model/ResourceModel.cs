@@ -13,7 +13,6 @@ public class ResourceModel
 
     public int OwnerId { get; set; }
     public UserModel Owner { get; set; } = null!;
-    public DateTime CreatedAt { get; set; } 
 
     public ICollection<BookingModel> Bookings { get; set; } = new List<BookingModel>();
 }
