@@ -18,13 +18,19 @@ public class AuthService : IAuthService
     private readonly IUserRepository _userRepo;
     private readonly JwtSettings _jwtSettings;
     private readonly ILogger<AuthService> _logger;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public AuthService(IUserRepository userRepo, IOptions<JwtSettings> jwtSettings, ILogger<AuthService> logger)
+    public AuthService(IUserRepository userRepo, IOptions<JwtSettings> jwtSettings, ILogger<AuthService> logger,IHttpContextAccessor httpContextAccessor)
     {
         _userRepo = userRepo;
         _jwtSettings = jwtSettings.Value;
         _logger = logger;
+        _httpContextAccessor = httpContextAccessor;
     }
+
+    private int CurrentUserId =>
+     Convert.ToInt32(_httpContextAccessor.HttpContext?.User
+         .FindFirstValue(ClaimTypes.NameIdentifier));
 
     public async Task<AuthResponseDto?> RegisterAsync(RegisterDto dto)
     {
@@ -56,7 +62,8 @@ public class AuthService : IAuthService
             Token = GenerateToken(user),
             RefreshToken = refreshToken,
             Role = user.Role,
-            FullName = user.FullName
+            FullName = user.FullName,
+            UserId = CurrentUserId
         };
     }
 
@@ -78,7 +85,8 @@ public class AuthService : IAuthService
             Token = GenerateToken(user),
             RefreshToken = user.RefreshToken,
             Role = user.Role,
-            FullName = user.FullName
+            FullName = user.FullName,
+            UserId = user.Id
         };
     }
 
@@ -110,7 +118,8 @@ public class AuthService : IAuthService
             Token = GenerateToken(user),
             RefreshToken = user.RefreshToken,
             Role = user.Role,
-            FullName = user.FullName
+            FullName = user.FullName,
+            UserId = user.Id
         };
     }
 

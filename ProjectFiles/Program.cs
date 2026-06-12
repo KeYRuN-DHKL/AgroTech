@@ -100,6 +100,7 @@ builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IDashboardRepository, DashboardRepository>();
 builder.Services.AddScoped<IDashboardService, DashboardService>();
+builder.Services.AddHttpContextAccessor();
 
 // Register Auth Service
 builder.Services.AddScoped<IAuthService, AuthService>();

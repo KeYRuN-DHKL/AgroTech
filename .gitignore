@@ -1,63 +1,89 @@
 # ========================
+
 # ASP.NET Core (.NET) files
+
 # ========================
+
 
 # Build results
+
 .vs/
+
 bin/
+
 obj/
+
 *.dll
+
 *.exe
 
+
 # User-specific files
+
 *.user
+
 *.suo
+
 *.userosscache
+
 *.sln.docstates
 
+
 # IDE settings
+
 .vscode/
+
 .idea/
+
 *.DotSettings.user
 
+
 # Secrets and config
+
 appsettings.Development.json
+
 .env
 
+
 # Logs
+
 *.log
+
 logs/
 
+
 # Entity Framework
+
 Migrations/*Snapshot.cs
 
-# npm / frontend (if using React/Tailwind later)
+
+# npm / frontend
+
 node_modules/
+
 dist/
+
 build/
 
+
 # Backup and temporary files
+
 *.bak
+
 *.tmp
+
 ~$*
 
+
 # SQLite or local DBs
+
 *.db
+
 *.db-shm
+
 *.db-wal
+
 *.db-journal
 
-# ========================
-# Docker-related files
-# ========================
 
-# Ignore Docker local volumes
-docker-compose.override.yml
-docker-compose.*.yml
 
-# Docker build cache
-**/Dockerfile.build
-.docker/
-
-# Docker named volumes (optional)
-volume_data/
